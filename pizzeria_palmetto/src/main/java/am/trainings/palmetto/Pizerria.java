@@ -23,18 +23,40 @@ public class Pizerria {
         initializeApplicationContext();
 
         Scanner scanner = new Scanner (System.in);
+        System.out.println ("Do you have registered account?");
+        System.out.println ("Yes or No");
+        String response = scanner.nextLine().trim ();
 
-        System.out.print("Enter your Fullname: ");
-        String name = scanner.nextLine ();
+        String username;
+        Customer customer;
 
-        System.out.print("Enter your Username: ");
-        String username = scanner.nextLine ();
+        if(response.equalsIgnoreCase("No")) {
+            System.out.print ("Enter your Fullname: ");
+            String name = scanner.nextLine ().trim ();
 
-        Customer customer = new Customer (name, username);
+            System.out.print ("Enter your Username: ");
+            username = scanner.nextLine ();
 
-        String s = customerRepository.registerCustomer(customer);
-        System.out.println("Customer registered as " + s);
+            customer = new Customer (name, username);
+            String s = customerRepository.registerCustomer (customer);
+            System.out.println ("Customer registered as " + s);
+        }else if (response.equalsIgnoreCase("Yes")) {
+            System.out.println ("Write your username");
+            username = scanner.nextLine ();
 
+            Optional<Customer> findCustomerByUsername = customerRepository.findCustomerByUsername (username);
+
+            while(findCustomerByUsername.isEmpty ()) {
+                System.out.print ("Customer not found");
+                username = scanner.nextLine ();
+                findCustomerByUsername = customerRepository.findCustomerByUsername (username);
+            }
+            customer = findCustomerByUsername.get();
+            System.out.println ("Customer registered as " + customer);
+        }else{
+            System.out.println ("Invalid input");
+            return;
+        }
         Map<Pizza, Integer> pizzaTypeCount = new HashMap<> ();
         Boolean isAdding = true;
         do{
@@ -76,9 +98,9 @@ public class Pizerria {
             pizzaTypeCount.put(pizzas , pizzasCount);
 
             System.out.println ("Do you want to order another pizza? Yes or No ");
-            String response = scanner.nextLine ();
+            String response1 = scanner.nextLine ();
 
-            isAdding = response.equalsIgnoreCase ("Yes");
+            isAdding = response1.equalsIgnoreCase ("Yes");
         }while (isAdding);
 
         double finalPizzaPrice = 0;
