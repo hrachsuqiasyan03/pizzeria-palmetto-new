@@ -11,18 +11,13 @@ import am.trainings.palmetto.pizza.Pizza;
 import java.util.Map;
 
 public class OrderServiceImpl implements OrderService {
-
-
     private final CustomerRepository customerRepository;
-
-
     private final OrderRepository orderRepository;
 
     public OrderServiceImpl(ApplicationContextHolder contextHolder) {
         this.customerRepository = contextHolder.getObject(CustomerRepository.class);
         this.orderRepository = contextHolder.getObject(OrderRepository.class);
     }
-
     @Override
     public long orderPizza(String username, Map<Pizza, Integer> pizzas) {
 

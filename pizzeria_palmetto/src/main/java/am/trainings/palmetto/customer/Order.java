@@ -16,7 +16,16 @@ public class Order {
     private final Long customerId;
     private final Map<Pizza, Integer> pizzas;
 
-    public void addPizza(Pizza pizza, int count) {
-        pizzas.put(pizza, count);
+    public Order( Long customerId, Map<Pizza, Integer> pizzas) {
+        this.customerId = customerId;
+        this.pizzas = pizzas;
+
+    }
+
+    public void addPizza(Pizza pizza, int pizzasCount) {
+        pizzas.put(pizza, pizzasCount);
+    }
+    public void printCheck(){
+
     }
 }

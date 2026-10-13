@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class InMemoryCustomerRepository  implements CustomerRepository {
     private Map<String, Customer> customers = new HashMap<> ();
-    private long customerId = 0;
+    private long customerId = 1;
     private static InMemoryCustomerRepository INSTANCE;
 
     private InMemoryCustomerRepository() {

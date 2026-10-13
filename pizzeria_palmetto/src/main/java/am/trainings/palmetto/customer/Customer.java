@@ -8,5 +8,4 @@ public class Customer {
     private final String fullName;
     private final String username;
 
-
 }

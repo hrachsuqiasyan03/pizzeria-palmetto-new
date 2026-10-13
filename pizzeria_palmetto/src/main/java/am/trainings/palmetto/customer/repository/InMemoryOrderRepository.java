@@ -10,7 +10,7 @@ import java.util.Objects;
 // dao - data access object
 public class InMemoryOrderRepository implements OrderRepository {
 
-    private final Map<Long, Order> orders = new HashMap<>();
+        private final Map<Long, Order> orders = new HashMap<>();
     private static InMemoryOrderRepository INSTANCE = null;
 
     private InMemoryOrderRepository() {
@@ -23,10 +23,7 @@ public class InMemoryOrderRepository implements OrderRepository {
 
         return INSTANCE;
     }
-
-
-    private Long initialOrderId = 0L;
-
+    private Long initialOrderId = 1L;
 
     public long save(Order order) {
         Long orderId = generateOrderNumber();

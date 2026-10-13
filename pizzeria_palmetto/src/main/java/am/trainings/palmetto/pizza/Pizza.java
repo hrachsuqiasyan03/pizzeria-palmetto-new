@@ -1,44 +1,60 @@
 package am.trainings.palmetto.pizza;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * YAGNI, KISS, DRY
  */
 public class Pizza {
-
-    public static final Pizza REGULAR = new Pizza("Regular", PizzaType.REGULAR.name(), new String[7]);
-
     private String name;
     private String type;
-    private String[] ingredients;
+    private List<Ingredients> ingredients;
     private int ingredientsCount;
 
-    public Pizza(String name, String type, String[] ingredients) {
+    public Pizza(String name, String type, Ingredients[] ingredients) {
         this.name = name;
         this.type = type;
-        this.ingredients = ingredients;
-        for (String ingredient : ingredients) {
+        this.ingredients = new ArrayList<> ();
+
+        if(ingredients!=null) {
+        for (Ingredients ingredient : ingredients) {
             if (ingredient != null) {
-                ingredientsCount++;
+                this.ingredients.add(ingredient);
+                 }
             }
         }
+        this.ingredientsCount = this.ingredients.size();
     }
 
     public String getName() {
         return name;
     }
 
-    public String[] getIngredients() {
-        return ingredients;
+    public String getType() {
+        return type;
     }
 
-    public void addIngredient(String ingredient) {
-        ingredients[8] = ingredient;
-
-
+    public List<Ingredients> getIngredients() {
+        return new ArrayList<> (ingredients);
     }
-
+    public void addIngredient(Ingredients ingredient) {
+        if(ingredient != null) {
+            this.ingredients.add(ingredient);
+            ingredientsCount++;
+        }
+    }
     public int getIngredientsCount() {
         return ingredientsCount;
+    }
+
+    public double getIngredientPrice() {
+        double price  = PizzaType.valueOf(type).getPrice();
+        for (Ingredients ingredient : ingredients) {
+            price += ingredient.getPrice();
+        }
+        return price;
     }
 
     @Override
@@ -46,8 +62,9 @@ public class Pizza {
         return "Pizza{" +
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
-                ", ingredients=" + String.join(", ", ingredients) +
+                ", ingredients=" + ingredients +
                 ", ingredientsCount=" + ingredientsCount +
+                ", ingredientsPrice=" + getIngredientPrice() + "$" +
                 '}';
     }
 }
