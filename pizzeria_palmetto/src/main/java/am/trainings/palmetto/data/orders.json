@@ -1,0 +1,9 @@
+{
+  "1" : {
+    "customerId" : 1,
+    "pizzas" : {
+      "Pizza{name='Romana', type='CALZONE', ingredients=[TOMATO_PASTE, CHEESE, SALAMI], ingredientsCount=3, ingredientsPrice=4.0$}" : 2
+    },
+    "orderId" : 1
+  }
+}

@@ -2,7 +2,7 @@ package am.trainings.palmetto;
 import am.trainings.palmetto.common.ApplicationContextHolder;
 import am.trainings.palmetto.customer.Customer;
 import am.trainings.palmetto.customer.Order;
-import am.trainings.palmetto.customer.repository.InMemoryCustomerRepository;
+import am.trainings.palmetto.customer.repository.CustomerRepository;
 import am.trainings.palmetto.customer.service.OrderServiceImpl;
 import am.trainings.palmetto.pizza.Pizza;
 import am.trainings.palmetto.pizza.Ingredients;
@@ -17,7 +17,7 @@ import java.util.*;
  * and prints the final pizza details.
  */
 public class Pizerria {
-    private static InMemoryCustomerRepository customerRepository;
+    private static CustomerRepository customerRepository;
 
     public static void main(String[] args) {
         initializeApplicationContext();
@@ -116,6 +116,6 @@ public class Pizerria {
         ReceiptPrinter.printReceipt (order);
     }
     private static void initializeApplicationContext() {
-        customerRepository = InMemoryCustomerRepository.getInstance();
+        customerRepository = new ApplicationContextHolder().getObject(CustomerRepository.class);
     }
 }

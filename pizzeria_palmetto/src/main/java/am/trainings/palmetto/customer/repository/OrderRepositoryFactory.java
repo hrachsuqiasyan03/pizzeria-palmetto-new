@@ -12,6 +12,7 @@ public class OrderRepositoryFactory  extends AbstractRepositoryFactory {
 
     static {
         ORDER_REPOSITORY_MAP.put(RepositoryTypes.IN_MEMORY, InMemoryOrderRepository.getInstance());
+        ORDER_REPOSITORY_MAP.put(RepositoryTypes.FILE_REPOSITORY, new OrderFileRepository());
     }
 
     public OrderRepositoryFactory getInstance() {

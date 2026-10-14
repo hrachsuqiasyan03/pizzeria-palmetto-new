@@ -1,4 +1,6 @@
 package am.trainings.palmetto.customer;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 import am.trainings.palmetto.pizza.Pizza;
@@ -16,10 +18,12 @@ public class Order {
     private final Long customerId;
     private final Map<Pizza, Integer> pizzas;
 
-    public Order( Long customerId, Map<Pizza, Integer> pizzas) {
+    @JsonCreator
+    public Order(
+            @JsonProperty("customerId") Long customerId,
+            @JsonProperty("pizzas") Map<Pizza, Integer> pizzas) {
         this.customerId = customerId;
         this.pizzas = pizzas;
-
     }
 
     public void addPizza(Pizza pizza, int pizzasCount) {

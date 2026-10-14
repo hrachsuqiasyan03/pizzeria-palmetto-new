@@ -13,6 +13,7 @@ public class CustomerRepositoryFactory extends AbstractRepositoryFactory {
 
     static {
         CUSTOMER_REPOSITORY_MAP.put(RepositoryTypes.IN_MEMORY, InMemoryCustomerRepository.getInstance());
+        CUSTOMER_REPOSITORY_MAP.put(RepositoryTypes.FILE_REPOSITORY, new CustomerFileRepository());
     }
 
     public CustomerRepository getRepositoryByType(RepositoryTypes type) {
