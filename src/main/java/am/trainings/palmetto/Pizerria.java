@@ -40,6 +40,7 @@ public class Pizerria {
             customer = new Customer (name, username);
             String s = customerRepository.registerCustomer (customer);
             System.out.println ("Customer registered as " + s);
+
         }else if (response.equalsIgnoreCase("Yes")) {
             System.out.println ("Write your username");
             username = scanner.nextLine ();
@@ -53,12 +54,14 @@ public class Pizerria {
             }
             customer = findCustomerByUsername.get();
             System.out.println ("Customer registered as " + customer);
+
         }else{
             System.out.println ("Invalid input");
             return;
         }
+
         Map<Pizza, Integer> pizzaTypeCount = new HashMap<> ();
-        Boolean isAdding = true;
+        Boolean isAdding;
 
         do{
             System.out.println ("Choose pizza type:");
@@ -78,6 +81,7 @@ public class Pizerria {
             List<Ingredients> ingredients = new ArrayList<> ();
             System.out.println ("Add ingrediends");
             System.out.println ("Tomato paste (0), Cheese (1), Salami (2), Bacon (3), Garlic (4), Corn (5), Pepperoni (6), Olives (7)");
+            System.out.println ("Press -1 if you don't want to add another ingredient");
 
             int ingredient;
             while(true){
@@ -103,17 +107,9 @@ public class Pizerria {
             String response1 = scanner.nextLine ();
 
             isAdding = response1.equalsIgnoreCase ("Yes");
+
         }while (isAdding);
 
-        double finalPizzaPrice = 0;
-        for(Map.Entry<Pizza, Integer> entry : pizzaTypeCount.entrySet()) {
-            Pizza pizza = entry.getKey ();
-            Integer count = entry.getValue ();
-            finalPizzaPrice += pizza.getIngredientPrice () * count;
-        }
-        ApplicationContextHolder contextHolder = new ApplicationContextHolder();
-        OrderServiceImpl service = new OrderServiceImpl (contextHolder);
-        long orderId = service.orderPizza (username, pizzaTypeCount);
         Order order = new Order (customer.getCustomerId (), pizzaTypeCount);
         ReceiptPrinter.printReceipt (order);
     }
