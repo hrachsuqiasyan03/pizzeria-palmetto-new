@@ -23,11 +23,11 @@ public class CustomerFileRepository  implements CustomerRepository{
     private long customerId = 1;
 
     private static File resolveDataFile(String name) {
-        File moduleRelative = new File("src/main/java/am/trainings/palmetto/data", name);
+        File moduleRelative = new File("src/main/resources/data", name);
         if (moduleRelative.getParentFile().exists()) {
             return moduleRelative;
         }
-        return new File("pizzeria_palmetto/src/main/java/am/trainings/palmetto/data", name);
+        return new File("pizzeria_palmetto/src/main/resources/data", name);
     }
 
     public CustomerFileRepository() {

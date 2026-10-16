@@ -59,6 +59,7 @@ public class Pizerria {
         }
         Map<Pizza, Integer> pizzaTypeCount = new HashMap<> ();
         Boolean isAdding = true;
+
         do{
             System.out.println ("Choose pizza type:");
             System.out.println ("Regular type - 0 , Calzone type - 1");
@@ -90,6 +91,7 @@ public class Pizerria {
                      System.out.println ("Incorrect ingredient");
                  }
             }
+
             scanner.nextLine ();
 
             Ingredients[] ingredientsArray

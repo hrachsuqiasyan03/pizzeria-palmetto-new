@@ -1,0 +1,32 @@
+{
+  "1" : {
+    "orderId" : 1,
+    "customerId" : 1,
+    "pizzas" : [ {
+      "name" : "Romana",
+      "type" : "CALZONE",
+      "ingredients" : [ ],
+      "quantity" : 2
+    } ]
+  },
+  "2" : {
+    "orderId" : 2,
+    "customerId" : 1,
+    "pizzas" : [ {
+      "name" : "Pizzette",
+      "type" : "CALZONE",
+      "ingredients" : [ "TOMATO_PASTE", "CHEESE", "SALAMI", "BACON" ],
+      "quantity" : 3
+    } ]
+  },
+  "3" : {
+    "orderId" : 3,
+    "customerId" : 1,
+    "pizzas" : [ {
+      "name" : "Margherita",
+      "type" : "CALZONE",
+      "ingredients" : [ "TOMATO_PASTE", "CHEESE", "SALAMI", "BACON", "GARLIC", "CORN", "PEPPERONI" ],
+      "quantity" : 6
+    } ]
+  }
+}
