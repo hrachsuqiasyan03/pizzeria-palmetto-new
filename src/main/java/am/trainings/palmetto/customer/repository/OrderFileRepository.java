@@ -6,6 +6,7 @@ import am.trainings.palmetto.pizza.Ingredients;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,10 +27,12 @@ public class OrderFileRepository implements OrderRepository {
     private static File resolveDataFile(String name) {
         File workingDirectory = new File(System.getProperty("user.dir"));
         File moduleData = new File(workingDirectory, "src/main/resources/data/" + name);
+
         if (new File(workingDirectory, "pizzeria_palmetto/pom.xml").isFile()) {
             moduleData = new File(workingDirectory,
                     "pizzeria_palmetto/src/main/resources/data/" + name);
         }
+
         return moduleData;
     }
 
@@ -44,7 +47,7 @@ public class OrderFileRepository implements OrderRepository {
 
         try {
             Map<String, com.fasterxml.jackson.databind.JsonNode> loadedOrders =
-                    mapper.readValue(file, new TypeReference<Map<String, com.fasterxml.jackson.databind.JsonNode>>() {});
+                    mapper.readValue(file, new TypeReference<>() {});
 
             for (Map.Entry<String, com.fasterxml.jackson.databind.JsonNode> entry : loadedOrders.entrySet()) {
                 long id = Long.parseLong(entry.getKey());
@@ -74,7 +77,6 @@ public class OrderFileRepository implements OrderRepository {
                 pizzas.put(readPizza(item), item.path("quantity").asInt());
             }
         } else if (pizzasNode.isObject()) {
-            // Older files serialized Pizza objects as map keys using Pizza.toString().
             for (Map.Entry<String, com.fasterxml.jackson.databind.JsonNode> entry :
                     mapper.convertValue(pizzasNode, new TypeReference<Map<String, com.fasterxml.jackson.databind.JsonNode>>() {}).entrySet()) {
                 String key = entry.getKey();
@@ -168,7 +170,7 @@ public class OrderFileRepository implements OrderRepository {
         }
     }
 
-    // JSON-ի համար միջանկյալ տվյալների դասեր
+
 
     public static class OrderData {
         public Long orderId;

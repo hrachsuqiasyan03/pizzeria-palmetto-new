@@ -10,7 +10,7 @@ public class JsonWriter {
 
     }
     public static JsonWriter getInstance() {
-        if(INSTANCE == null) {
+        if (INSTANCE == null) {
             INSTANCE = new JsonWriter ();
         }
 
@@ -18,11 +18,10 @@ public class JsonWriter {
     }
 
     public void write(Object data, String filePath){
-
          try{
              mapper.writerWithDefaultPrettyPrinter()
                      .writeValue (new File (filePath), data);
-         }catch(IOException e){
+         } catch(IOException e) {
              throw new RuntimeException(
                      "Failed to write JSON file: " + filePath, e);
          }

@@ -24,9 +24,11 @@ public class CustomerFileRepository  implements CustomerRepository{
 
     private static File resolveDataFile(String name) {
         File moduleRelative = new File("src/main/resources/data", name);
+
         if (moduleRelative.getParentFile().exists()) {
             return moduleRelative;
         }
+
         return new File("pizzeria_palmetto/src/main/resources/data", name);
     }
 
@@ -35,17 +37,18 @@ public class CustomerFileRepository  implements CustomerRepository{
     }
 
     private void loadCustomers() {
-        if(!file.exists()) {
+        if (!file.exists()) {
             return;
         }
-        try{
+        try {
             Map<String, Customer> loadedCustomer = mapper.readValue (file, new TypeReference<Map<String, Customer>> () {});
             customers.putAll(loadedCustomer);
 
-            for(Customer customer : customers.values()){
+            for (Customer customer : customers.values()) {
                 customerId = Math.max(customerId, customer.getCustomerId() + 1);
             }
-        }catch (IOException e){
+
+        } catch (IOException e) {
             throw new RuntimeException("Failed to read JSON file: " + file, e);
         }
     }
@@ -54,9 +57,10 @@ public class CustomerFileRepository  implements CustomerRepository{
     public String registerCustomer(Customer customer) {
         String username = customer.getUsername();
 
-        if(customers.containsKey(username)) {
+        if (customers.containsKey(username)) {
             throw new DublicateUsernameException ("Username already exists " + username);
         }
+
         customer.setCustomerId (customerId++);
         customers.put(username, customer);
         saveCustomer();
@@ -64,14 +68,15 @@ public class CustomerFileRepository  implements CustomerRepository{
     }
 
     public void saveCustomer() {
-        try{
+        try {
             File parent = file.getParentFile();
 
-            if(parent != null && !parent.exists()){
+            if (parent != null && !parent.exists()) {
                 parent.mkdirs();
             }
+
             JsonWriter.getInstance ().write(customers,file.getPath ());
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             throw new  RuntimeException("Failed to save customer " + customerId, e);
         }
     }

@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class InMemoryCustomerRepository  implements CustomerRepository {
-    private Map<String, Customer> customers = new HashMap<> ();
+    private final Map<String, Customer> customers = new HashMap<> ();
     private long customerId = 1;
     private static InMemoryCustomerRepository INSTANCE;
 
@@ -17,16 +17,20 @@ public class InMemoryCustomerRepository  implements CustomerRepository {
     }
 
     public static InMemoryCustomerRepository getInstance() {
+
         if (INSTANCE == null) {
             INSTANCE = new InMemoryCustomerRepository ();
         }
+
         return INSTANCE;
     }
     public String registerCustomer(Customer customer) {
         boolean isCustomerExist = customers.containsKey (customer.getUsername());
-        if(isCustomerExist) {
+
+        if (isCustomerExist) {
             throw new DublicateUsernameException ("Username" + customer.getUsername () + "already exsist");
         }
+
         long customerId = generateCustomerNumber ();
         customer.setCustomerId(customerId);
         String username = customer.getUsername ();

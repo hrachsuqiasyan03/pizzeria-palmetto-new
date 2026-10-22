@@ -18,7 +18,7 @@ public class Pizza {
         this.type = type;
         this.ingredients = new ArrayList<> ();
 
-        if(ingredients!=null) {
+        if (ingredients!=null) {
         for (Ingredients ingredient : ingredients) {
             if (ingredient != null) {
                 this.ingredients.add(ingredient);
@@ -38,15 +38,6 @@ public class Pizza {
 
     public List<Ingredients> getIngredients() {
         return new ArrayList<> (ingredients);
-    }
-    public void addIngredient(Ingredients ingredient) {
-        if(ingredient != null) {
-            this.ingredients.add(ingredient);
-            ingredientsCount++;
-        }
-    }
-    public int getIngredientsCount() {
-        return ingredientsCount;
     }
 
     public double getIngredientPrice() {

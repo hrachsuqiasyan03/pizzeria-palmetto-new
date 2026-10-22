@@ -8,6 +8,7 @@ import am.trainings.palmetto.pizza.Pizza;
 import am.trainings.palmetto.pizza.Ingredients;
 import am.trainings.palmetto.pizza.PizzaType;
 import am.trainings.palmetto.pizza.ReceiptPrinter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +52,6 @@ public class Pizzeria {
             System.out.println ("Write your username");
             username = scanner.nextLine ();
 
-
             Optional<Customer> findCustomerByUsername = customerRepository.findCustomerByUsername (username);
 
             while(findCustomerByUsername.isEmpty ()) {
@@ -75,14 +75,12 @@ public class Pizzeria {
             System.out.println ("Choose pizza type:");
             System.out.println ("Regular type - 0 , Calzone type - 1");
 
-            PizzaType pizzaTypes = PizzaType.values()[scanner.nextInt()];
             int typeIndex = scanner.nextInt();
-            scanner.nextLine();
-
             if (typeIndex < 0 || typeIndex >= PizzaType.values().length) {
                 System.out.println("Incorrect pizza type");
                 return;
             }
+            PizzaType pizzaTypes = PizzaType.values()[typeIndex];
 
             System.out.println ("How many pizzas do you want to order? ");
             int pizzasCount = scanner.nextInt ();

@@ -10,13 +10,14 @@ import java.util.Objects;
 // dao - data access object
 public class InMemoryOrderRepository implements OrderRepository {
 
-        private final Map<Long, Order> orders = new HashMap<>();
+    private final Map<Long, Order> orders = new HashMap<>();
     private static InMemoryOrderRepository INSTANCE = null;
 
     private InMemoryOrderRepository() {
     }
 
     public static InMemoryOrderRepository getInstance() {
+
         if (Objects.isNull(INSTANCE)) {
             INSTANCE = new InMemoryOrderRepository();
         }

@@ -26,7 +26,6 @@ public final class ApplicationContextHolder {
             Object repo = factory.getRepositoryByType(repositoryType);
             return clazz.cast(repo); // safer than (T)
         }
-        // allow direct instances too
         return clazz.cast(entry);
     }
 
