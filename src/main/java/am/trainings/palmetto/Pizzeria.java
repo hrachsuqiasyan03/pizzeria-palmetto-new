@@ -1,28 +1,34 @@
 package am.trainings.palmetto;
+
 import am.trainings.palmetto.common.ApplicationContextHolder;
 import am.trainings.palmetto.customer.Customer;
 import am.trainings.palmetto.customer.Order;
 import am.trainings.palmetto.customer.repository.CustomerRepository;
-import am.trainings.palmetto.customer.service.OrderServiceImpl;
 import am.trainings.palmetto.pizza.Pizza;
 import am.trainings.palmetto.pizza.Ingredients;
 import am.trainings.palmetto.pizza.PizzaType;
 import am.trainings.palmetto.pizza.ReceiptPrinter;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Scanner;
 
 /**
  * This is the main class of the Pizzeria application.
  * It creates a customer and an order, adds ingredients to the pizza,
  * and prints the final pizza details.
  */
-public class Pizerria {
+
+public class Pizzeria {
+
     private static CustomerRepository customerRepository;
 
     public static void main(String[] args) {
         initializeApplicationContext();
 
-        Scanner scanner = new Scanner (System.in);
+        Scanner scanner = new Scanner(System.in);
         System.out.println ("Do you have registered account?");
         System.out.println ("Yes or No");
         String response = scanner.nextLine().trim ();
@@ -30,7 +36,7 @@ public class Pizerria {
         String username;
         Customer customer;
 
-        if(response.equalsIgnoreCase("No")) {
+        if (response.equalsIgnoreCase("No")) {
             System.out.print ("Enter your Fullname: ");
             String name = scanner.nextLine ().trim ();
 
@@ -38,37 +44,45 @@ public class Pizerria {
             username = scanner.nextLine ();
 
             customer = new Customer (name, username);
-            String s = customerRepository.registerCustomer (customer);
-            System.out.println ("Customer registered as " + s);
+            String registeredUsername = customerRepository.registerCustomer (customer);
+            System.out.println ("Customer registered as " + registeredUsername);
 
-        }else if (response.equalsIgnoreCase("Yes")) {
+        } else if (response.equalsIgnoreCase("Yes")) {
             System.out.println ("Write your username");
             username = scanner.nextLine ();
+
 
             Optional<Customer> findCustomerByUsername = customerRepository.findCustomerByUsername (username);
 
             while(findCustomerByUsername.isEmpty ()) {
                 System.out.print ("Customer not found");
-                username = scanner.nextLine ();
+                username = scanner.nextLine ().trim();
+
                 findCustomerByUsername = customerRepository.findCustomerByUsername (username);
             }
+
             customer = findCustomerByUsername.get();
             System.out.println ("Customer registered as " + customer);
 
-        }else{
+        } else {
             System.out.println ("Invalid input");
             return;
         }
 
-        Map<Pizza, Integer> pizzaTypeCount = new HashMap<> ();
-        Boolean isAdding;
-
-        do{
+        Map<Pizza, Integer> pizzaQuantities = new HashMap<> ();
+        boolean isAdding;
+        do {
             System.out.println ("Choose pizza type:");
             System.out.println ("Regular type - 0 , Calzone type - 1");
 
-            PizzaType pizzaTypes = PizzaType.values ()[scanner.nextInt ()];
-            scanner.nextLine ();
+            PizzaType pizzaTypes = PizzaType.values()[scanner.nextInt()];
+            int typeIndex = scanner.nextInt();
+            scanner.nextLine();
+
+            if (typeIndex < 0 || typeIndex >= PizzaType.values().length) {
+                System.out.println("Incorrect pizza type");
+                return;
+            }
 
             System.out.println ("How many pizzas do you want to order? ");
             int pizzasCount = scanner.nextInt ();
@@ -79,19 +93,19 @@ public class Pizerria {
             String pizzaName = scanner.nextLine ();
 
             List<Ingredients> ingredients = new ArrayList<> ();
-            System.out.println ("Add ingrediends");
+            System.out.println ("Add ingredients");
             System.out.println ("Tomato paste (0), Cheese (1), Salami (2), Bacon (3), Garlic (4), Corn (5), Pepperoni (6), Olives (7)");
             System.out.println ("Press -1 if you don't want to add another ingredient");
 
             int ingredient;
-            while(true){
+            while (true) {
                 ingredient = scanner.nextInt ();
-                 if(ingredient == -1){
+                 if (ingredient == -1) {
                      break;
                  }
-                 if(ingredient >= 0 && ingredient <Ingredients.values ().length){
+                 if (ingredient >= 0 && ingredient <Ingredients.values ().length) {
                      ingredients.add (Ingredients.values ()[ingredient]);
-                 }else{
+                 } else {
                      System.out.println ("Incorrect ingredient");
                  }
             }
@@ -100,17 +114,17 @@ public class Pizerria {
 
             Ingredients[] ingredientsArray
                     = ingredients.toArray(new Ingredients[0]);
-            Pizza pizzas = new Pizza (pizzaName, pizzaTypes.name (), ingredientsArray);
-            pizzaTypeCount.put(pizzas , pizzasCount);
+            Pizza pizza = new Pizza (pizzaName, pizzaTypes.name (), ingredientsArray);
+            pizzaQuantities.put(pizza , pizzasCount);
 
             System.out.println ("Do you want to order another pizza? Yes or No ");
             String response1 = scanner.nextLine ();
 
             isAdding = response1.equalsIgnoreCase ("Yes");
 
-        }while (isAdding);
+        } while (isAdding);
 
-        Order order = new Order (customer.getCustomerId (), pizzaTypeCount);
+        Order order = new Order (customer.getCustomerId (), pizzaQuantities);
         ReceiptPrinter.printReceipt (order);
     }
     private static void initializeApplicationContext() {
