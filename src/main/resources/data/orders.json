@@ -28,5 +28,15 @@
       "ingredients" : [ "TOMATO_PASTE", "CHEESE", "SALAMI", "BACON", "GARLIC", "CORN", "PEPPERONI" ],
       "quantity" : 6
     } ]
+  },
+  "4" : {
+    "orderId" : 4,
+    "customerId" : 1,
+    "pizzas" : [ {
+      "name" : "Romana",
+      "type" : "CALZONE",
+      "ingredients" : [ "GARLIC", "CORN", "PEPPERONI", "OLIVES" ],
+      "quantity" : 4
+    } ]
   }
 }

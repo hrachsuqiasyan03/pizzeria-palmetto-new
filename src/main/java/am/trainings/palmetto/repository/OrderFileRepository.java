@@ -5,6 +5,7 @@ import am.trainings.palmetto.pizza.Pizza;
 import am.trainings.palmetto.pizza.Ingredients;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
+@Primary
 public class OrderFileRepository implements OrderRepository {
 
     private final Map<Long, Order> orders = new HashMap<>();

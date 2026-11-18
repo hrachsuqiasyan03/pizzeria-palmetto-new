@@ -25,11 +25,4 @@ public class Order {
         this.customerId = customerId;
         this.pizzas = pizzas;
     }
-
-    public void addPizza(Pizza pizza, int pizzasCount) {
-        pizzas.put(pizza, pizzasCount);
-    }
-    public void printCheck(){
-
-    }
 }
