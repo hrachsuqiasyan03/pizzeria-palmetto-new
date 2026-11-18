@@ -1,7 +1,11 @@
 package am.trainings.palmetto.json;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
+
 import java.io.File;
 import java.io.IOException;
+
+@Component
 public class JsonWriter {
     private static JsonWriter INSTANCE =  new JsonWriter();
     private final ObjectMapper mapper = new ObjectMapper();

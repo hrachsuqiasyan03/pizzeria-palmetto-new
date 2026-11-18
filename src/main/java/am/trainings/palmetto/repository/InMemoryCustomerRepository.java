@@ -12,20 +12,7 @@ import java.util.Optional;
 public class InMemoryCustomerRepository  implements CustomerRepository {
     private final Map<String, Customer> customers = new HashMap<> ();
     private long customerId = 1;
-    private static InMemoryCustomerRepository INSTANCE;
 
-    private InMemoryCustomerRepository() {
-        System.out.println ("Initializing only once");
-    }
-
-    public static InMemoryCustomerRepository getInstance() {
-
-        if (INSTANCE == null) {
-            INSTANCE = new InMemoryCustomerRepository ();
-        }
-
-        return INSTANCE;
-    }
     public String registerCustomer(Customer customer) {
         boolean isCustomerExist = customers.containsKey (customer.getUsername());
 
