@@ -1,13 +1,15 @@
 package am.trainings.palmetto;
 
-import am.trainings.palmetto.common.ApplicationContextHolder;
 import am.trainings.palmetto.customer.Customer;
 import am.trainings.palmetto.customer.Order;
-import am.trainings.palmetto.customer.repository.CustomerRepository;
+import am.trainings.palmetto.service.CustomerService;
+import am.trainings.palmetto.service.OrderService;
 import am.trainings.palmetto.pizza.Pizza;
 import am.trainings.palmetto.pizza.Ingredients;
 import am.trainings.palmetto.pizza.PizzaType;
 import am.trainings.palmetto.pizza.ReceiptPrinter;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import am.trainings.palmetto.config.SpringConfig;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,108 +26,110 @@ import java.util.Scanner;
 
 public class Pizzeria {
 
-    private static CustomerRepository customerRepository;
-
     public static void main(String[] args) {
-        initializeApplicationContext();
+        try (AnnotationConfigApplicationContext context =
+                     new AnnotationConfigApplicationContext (SpringConfig.class)) {
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println ("Do you have registered account?");
-        System.out.println ("Yes or No");
-        String response = scanner.nextLine().trim ();
+            CustomerService customerService =
+                    context.getBean (CustomerService.class);
+            OrderService orderService =
+                    context.getBean (OrderService.class);
 
-        String username;
-        Customer customer;
+            Scanner scanner = new Scanner (System.in);
+            System.out.println ("Do you have registered account?");
+            System.out.println ("Yes or No");
+            String response = scanner.nextLine ().trim ();
 
-        if (response.equalsIgnoreCase("No")) {
-            System.out.print ("Enter your Fullname: ");
-            String name = scanner.nextLine ().trim ();
+            String username;
+            Customer customer;
 
-            System.out.print ("Enter your Username: ");
-            username = scanner.nextLine ();
+            if (response.equalsIgnoreCase ("No")) {
+                System.out.print ("Enter your Fullname: ");
+                String name = scanner.nextLine ().trim ();
 
-            customer = new Customer (name, username);
-            String registeredUsername = customerRepository.registerCustomer (customer);
-            System.out.println ("Customer registered as " + registeredUsername);
+                System.out.print ("Enter your Username: ");
+                username = scanner.nextLine ();
 
-        } else if (response.equalsIgnoreCase("Yes")) {
-            System.out.println ("Write your username");
-            username = scanner.nextLine ();
+                customer = new Customer (name, username);
+                String registeredUsername = customerService.registerCustomer (customer);
+                System.out.println ("Customer registered as " + registeredUsername);
 
-            Optional<Customer> findCustomerByUsername = customerRepository.findCustomerByUsername (username);
+            } else if (response.equalsIgnoreCase ("Yes")) {
+                System.out.println ("Write your username");
+                username = scanner.nextLine ();
 
-            while(findCustomerByUsername.isEmpty ()) {
-                System.out.print ("Customer not found");
-                username = scanner.nextLine ().trim();
+                Optional<Customer> findCustomerByUsername = customerService.findCustomerByUsername (username);
 
-                findCustomerByUsername = customerRepository.findCustomerByUsername (username);
-            }
+                while (findCustomerByUsername.isEmpty ()) {
+                    System.out.print ("Customer not found");
+                    username = scanner.nextLine ().trim ();
 
-            customer = findCustomerByUsername.get();
-            System.out.println ("Customer registered as " + customer);
+                    findCustomerByUsername = customerService.findCustomerByUsername (username);
+                }
 
-        } else {
-            System.out.println ("Invalid input");
-            return;
-        }
+                customer = findCustomerByUsername.get ();
+                System.out.println ("Customer registered as " + customer);
 
-        Map<Pizza, Integer> pizzaQuantities = new HashMap<> ();
-        boolean isAdding;
-        do {
-            System.out.println ("Choose pizza type:");
-            System.out.println ("Regular type - 0 , Calzone type - 1");
-
-            int typeIndex = scanner.nextInt();
-            if (typeIndex < 0 || typeIndex >= PizzaType.values().length) {
-                System.out.println("Incorrect pizza type");
+            } else {
+                System.out.println ("Invalid input");
                 return;
             }
-            PizzaType pizzaTypes = PizzaType.values()[typeIndex];
 
-            System.out.println ("How many pizzas do you want to order? ");
-            int pizzasCount = scanner.nextInt ();
-            scanner.nextLine ();
+            Map<Pizza, Integer> pizzaQuantities = new HashMap<> ();
+            boolean isAdding;
+            do {
+                System.out.println ("Choose pizza type:");
+                System.out.println ("Regular type - 0 , Calzone type - 1");
 
-            System.out.println ("Which pizza would you like to order? ");
-            System.out.println ("Margherita, Pizzette, Pepperoni, Romana, Parmigiana");
-            String pizzaName = scanner.nextLine ();
+                int typeIndex = scanner.nextInt ();
+                if (typeIndex < 0 || typeIndex >= PizzaType.values ().length) {
+                    System.out.println ("Incorrect pizza type");
+                    return;
+                }
+                PizzaType pizzaTypes = PizzaType.values ()[typeIndex];
 
-            List<Ingredients> ingredients = new ArrayList<> ();
-            System.out.println ("Add ingredients");
-            System.out.println ("Tomato paste (0), Cheese (1), Salami (2), Bacon (3), Garlic (4), Corn (5), Pepperoni (6), Olives (7)");
-            System.out.println ("Press -1 if you don't want to add another ingredient");
+                System.out.println ("How many pizzas do you want to order? ");
+                int pizzasCount = scanner.nextInt ();
+                scanner.nextLine ();
 
-            int ingredient;
-            while (true) {
-                ingredient = scanner.nextInt ();
-                 if (ingredient == -1) {
-                     break;
-                 }
-                 if (ingredient >= 0 && ingredient <Ingredients.values ().length) {
-                     ingredients.add (Ingredients.values ()[ingredient]);
-                 } else {
-                     System.out.println ("Incorrect ingredient");
-                 }
-            }
+                System.out.println ("Which pizza would you like to order? ");
+                System.out.println ("Margherita, Pizzette, Pepperoni, Romana, Parmigiana");
+                String pizzaName = scanner.nextLine ();
 
-            scanner.nextLine ();
+                List<Ingredients> ingredients = new ArrayList<> ();
+                System.out.println ("Add ingredients");
+                System.out.println ("Tomato paste (0), Cheese (1), Salami (2), Bacon (3), Garlic (4), Corn (5), Pepperoni (6), Olives (7)");
+                System.out.println ("Press -1 if you don't want to add another ingredient");
 
-            Ingredients[] ingredientsArray
-                    = ingredients.toArray(new Ingredients[0]);
-            Pizza pizza = new Pizza (pizzaName, pizzaTypes.name (), ingredientsArray);
-            pizzaQuantities.put(pizza , pizzasCount);
+                int ingredient;
+                while (true) {
+                    ingredient = scanner.nextInt ();
+                    if (ingredient == -1) {
+                        break;
+                    }
+                    if (ingredient >= 0 && ingredient < Ingredients.values ().length) {
+                        ingredients.add (Ingredients.values ()[ingredient]);
+                    } else {
+                        System.out.println ("Incorrect ingredient");
+                    }
+                }
 
-            System.out.println ("Do you want to order another pizza? Yes or No ");
-            String response1 = scanner.nextLine ();
+                scanner.nextLine ();
 
-            isAdding = response1.equalsIgnoreCase ("Yes");
+                Ingredients[] ingredientsArray
+                        = ingredients.toArray (new Ingredients[0]);
+                Pizza pizza = new Pizza (pizzaName, pizzaTypes.name (), ingredientsArray);
+                pizzaQuantities.put (pizza, pizzasCount);
 
-        } while (isAdding);
+                System.out.println ("Do you want to order another pizza? Yes or No ");
+                String response1 = scanner.nextLine ();
 
-        Order order = new Order (customer.getCustomerId (), pizzaQuantities);
-        ReceiptPrinter.printReceipt (order);
-    }
-    private static void initializeApplicationContext() {
-        customerRepository = new ApplicationContextHolder().getObject(CustomerRepository.class);
+                isAdding = response1.equalsIgnoreCase ("Yes");
+
+            } while (isAdding);
+
+            Order order = orderService.orderPizza (username, pizzaQuantities);
+            ReceiptPrinter.printReceipt (order);
+        }
     }
 }

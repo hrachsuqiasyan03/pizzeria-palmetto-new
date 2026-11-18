@@ -1,4 +1,4 @@
-package am.trainings.palmetto.customer.exceptions;
+package am.trainings.palmetto.exceptions;
 
 public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException(String message) {

@@ -1,10 +1,11 @@
-package am.trainings.palmetto.customer.repository;
+package am.trainings.palmetto.repository;
 
 import am.trainings.palmetto.customer.Order;
 import am.trainings.palmetto.pizza.Pizza;
 import am.trainings.palmetto.pizza.Ingredients;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Repository;
 
 
 import java.io.File;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Repository
 public class OrderFileRepository implements OrderRepository {
 
     private final Map<Long, Order> orders = new HashMap<>();
@@ -169,8 +171,6 @@ public class OrderFileRepository implements OrderRepository {
             );
         }
     }
-
-
 
     public static class OrderData {
         public Long orderId;

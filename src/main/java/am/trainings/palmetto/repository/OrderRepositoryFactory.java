@@ -1,4 +1,4 @@
-package am.trainings.palmetto.customer.repository;
+package am.trainings.palmetto.repository;
 
 import am.trainings.palmetto.common.AbstractRepositoryFactory;
 import am.trainings.palmetto.common.RepositoryTypes;

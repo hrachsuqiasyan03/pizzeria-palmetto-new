@@ -1,4 +1,4 @@
-package am.trainings.palmetto.customer.exceptions;
+package am.trainings.palmetto.exceptions;
 
 import am.trainings.palmetto.common.BaseException;
 

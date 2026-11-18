@@ -1,12 +1,13 @@
-package am.trainings.palmetto.customer.repository;
+package am.trainings.palmetto.repository;
 
 import am.trainings.palmetto.customer.Order;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-
+@Repository
 // dao - data access object
 public class InMemoryOrderRepository implements OrderRepository {
 

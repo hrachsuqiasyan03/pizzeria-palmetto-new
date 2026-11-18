@@ -1,10 +1,12 @@
-package am.trainings.palmetto.customer.repository;
+package am.trainings.palmetto.repository;
 
 import am.trainings.palmetto.customer.Customer;
-import am.trainings.palmetto.customer.exceptions.DublicateUsernameException;
+import am.trainings.palmetto.exceptions.DublicateUsernameException;
 import am.trainings.palmetto.json.JsonWriter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Repository;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+@Repository
+@Primary
 public class CustomerFileRepository  implements CustomerRepository{
 
     private final Map<String, Customer> customers = new HashMap<> ();
