@@ -26,19 +26,15 @@ public class CustomerFileRepository  implements CustomerRepository{
 
     private long customerId = 1;
 
+    private final JsonWriter jsonWriter;
 
     private static File resolveDataFile(String name) {
-        File moduleRelative = new File("src/main/resources/data", name);
-
-        if (moduleRelative.getParentFile().exists()) {
-            return moduleRelative;
-        }
-
-        return new File("pizzeria_palmetto/src/main/resources/data", name);
+        return new File("src/main/resources/data", name);
     }
 
-    public CustomerFileRepository() {
-        loadCustomers();
+    public CustomerFileRepository( JsonWriter jsonWriter) {
+        this.jsonWriter = jsonWriter;
+        loadCustomers ();
     }
 
     private void loadCustomers() {
@@ -80,7 +76,7 @@ public class CustomerFileRepository  implements CustomerRepository{
                 parent.mkdirs();
             }
 
-            JsonWriter.getInstance ().write(customers,file.getPath ());
+            jsonWriter.write(customers,file.getPath ());
         } catch (RuntimeException e) {
             throw new  RuntimeException("Failed to save customer " + customerId, e);
         }

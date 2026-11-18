@@ -1,4 +1,5 @@
 package am.trainings.palmetto.json;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 
@@ -7,19 +8,8 @@ import java.io.IOException;
 
 @Component
 public class JsonWriter {
-    private static JsonWriter INSTANCE =  new JsonWriter();
+
     private final ObjectMapper mapper = new ObjectMapper();
-
-    private JsonWriter() {
-
-    }
-    public static JsonWriter getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new JsonWriter ();
-        }
-
-        return INSTANCE;
-    }
 
     public void write(Object data, String filePath){
          try{

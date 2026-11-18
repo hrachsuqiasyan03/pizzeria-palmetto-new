@@ -38,5 +38,25 @@
       "ingredients" : [ "GARLIC", "CORN", "PEPPERONI", "OLIVES" ],
       "quantity" : 4
     } ]
+  },
+  "5" : {
+    "orderId" : 5,
+    "customerId" : 1,
+    "pizzas" : [ {
+      "name" : "Pepperoni",
+      "type" : "CALZONE",
+      "ingredients" : [ "SALAMI", "GARLIC", "CORN" ],
+      "quantity" : 2
+    } ]
+  },
+  "6" : {
+    "orderId" : 6,
+    "customerId" : 1,
+    "pizzas" : [ {
+      "name" : "Parmigiana",
+      "type" : "CALZONE",
+      "ingredients" : [ "CHEESE", "SALAMI", "BACON" ],
+      "quantity" : 1
+    } ]
   }
 }
