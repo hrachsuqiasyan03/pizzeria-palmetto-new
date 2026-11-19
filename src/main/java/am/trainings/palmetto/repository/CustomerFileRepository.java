@@ -7,6 +7,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Value;
+import java.nio.file.Path;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +22,7 @@ public class CustomerFileRepository  implements CustomerRepository{
 
     private final Map<String, Customer> customers = new HashMap<> ();
 
-    private final File file = resolveDataFile("customer.json");
+    private final File file;
 
     private final ObjectMapper mapper = new ObjectMapper();
 
@@ -28,12 +30,14 @@ public class CustomerFileRepository  implements CustomerRepository{
 
     private final JsonWriter jsonWriter;
 
-    private static File resolveDataFile(String name) {
-        return new File("src/main/resources/data", name);
-    }
 
-    public CustomerFileRepository( JsonWriter jsonWriter) {
+
+    public CustomerFileRepository(
+            JsonWriter jsonWriter,
+            @Value ("${pizzeria.data.directory}") String dataDirectory) {
+
         this.jsonWriter = jsonWriter;
+        this.file = Path.of(dataDirectory, "customers.json").toFile();
         loadCustomers ();
     }
 
