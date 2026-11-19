@@ -6,4 +6,8 @@ public class CustomerDto {
     public CustomerDto(String username) {
         this.username = username;
     }
+
+    public String getUsername() {
+        return username;
+    }
 }

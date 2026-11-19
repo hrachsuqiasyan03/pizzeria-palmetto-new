@@ -2,13 +2,11 @@ package am.trainings.palmetto.repository;
 
 import am.trainings.palmetto.customer.Customer;
 import am.trainings.palmetto.exceptions.DublicateUsernameException;
-import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-@Repository
 public class InMemoryCustomerRepository  implements CustomerRepository {
     private final Map<String, Customer> customers = new HashMap<> ();
     private long customerId = 1;

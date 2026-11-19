@@ -4,8 +4,8 @@ import am.trainings.palmetto.customer.Customer;
 import am.trainings.palmetto.dto.CustomerDto;
 import am.trainings.palmetto.service.CustomerService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/customers")
@@ -19,9 +19,16 @@ public class CustomerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CustomerDto registerCustomer(
-            @RequestBody Customer customer) {
-
+    public CustomerDto registerCustomer(@RequestBody Customer customer) {
         return new CustomerDto (customerService.registerCustomer(customer));
+    }
+
+    @GetMapping("/{username}")
+    public CustomerDto getCustomer(@PathVariable String username) {
+        Customer customer = customerService.findCustomerByUsername(username)
+                .orElseThrow (() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        return  new CustomerDto (customer.getUsername ());
     }
 }

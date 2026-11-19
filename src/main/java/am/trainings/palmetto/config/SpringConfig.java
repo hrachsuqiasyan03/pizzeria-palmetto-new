@@ -2,12 +2,15 @@ package am.trainings.palmetto.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.stereotype.Controller;
 
 @Configuration
-@ComponentScan(basePackages = {
-        "am.trainings.palmetto.service",
-        "am.trainings.palmetto.repository",
-        "am.trainings.palmetto.json"
-})
+@ComponentScan(basePackages = "am.trainings.palmetto",
+        excludeFilters = @ComponentScan.Filter(
+                type = FilterType.ANNOTATION,
+                classes = Controller.class
+        )
+)
 public class SpringConfig {
 }
