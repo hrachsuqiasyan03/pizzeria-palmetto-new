@@ -6,6 +6,11 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.stereotype.Controller;
 
 @Configuration
-@ComponentScan("am.trainings.palmetto")
+@ComponentScan(
+        basePackages = "am.trainings.palmetto",
+        excludeFilters = {
+                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebConfig.class),
+                @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = Controller.class)
+        })
 public class SpringConfig {
 }
