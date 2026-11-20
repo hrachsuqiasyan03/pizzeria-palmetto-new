@@ -23,10 +23,12 @@ public class OrderServiceImpl implements OrderService {
     public Order orderPizza(String username, Map<Pizza, Integer> pizzas) {
 
         Customer customer = customerRepository.findCustomerByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException("User not found: " + username));
+                .orElseGet(() -> customerRepository.findCustomerByUsername ("anonymous")
+                .orElseThrow(() -> new UserNotFoundException("User not found")));
 
         Order order = new Order(customer.getCustomerId(), pizzas);
-         orderRepository.save(order);
-         return order;
+
+        orderRepository.save(order);
+        return order;
     }
 }

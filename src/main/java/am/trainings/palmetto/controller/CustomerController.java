@@ -19,8 +19,10 @@ public class CustomerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CustomerDto registerCustomer(@RequestBody Customer customer) {
-        return new CustomerDto (customerService.registerCustomer(customer));
+    public CustomerDto registerCustomer(@RequestBody CustomerDto customerDto) {
+        Customer customer = new Customer(customerDto.getFullName(), customerDto.getUsername());
+        String username = customerService.registerCustomer(customer);
+        return new CustomerDto(customer.getFullName(), username);
     }
 
     @GetMapping("/{username}")
@@ -29,6 +31,6 @@ public class CustomerController {
                 .orElseThrow (() ->
                         new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        return  new CustomerDto (customer.getUsername ());
+        return  new CustomerDto (customer.getFullName (),customer.getUsername ());
     }
 }

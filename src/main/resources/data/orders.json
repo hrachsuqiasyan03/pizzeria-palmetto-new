@@ -58,5 +58,25 @@
       "ingredients" : [ "CHEESE", "SALAMI", "BACON" ],
       "quantity" : 1
     } ]
+  },
+  "7" : {
+    "orderId" : 7,
+    "customerId" : 0,
+    "pizzas" : [ {
+      "name" : "Margherita",
+      "type" : "REGULAR",
+      "ingredients" : [ ],
+      "quantity" : 6
+    } ]
+  },
+  "8" : {
+    "orderId" : 8,
+    "customerId" : 0,
+    "pizzas" : [ {
+      "name" : "Margherita",
+      "type" : "REGULAR",
+      "ingredients" : [ ],
+      "quantity" : 6
+    } ]
   }
 }

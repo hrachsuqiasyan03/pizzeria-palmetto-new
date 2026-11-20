@@ -3,6 +3,7 @@ package am.trainings.palmetto.service;
 import am.trainings.palmetto.customer.Customer;
 import am.trainings.palmetto.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
+import jakarta.annotation.PostConstruct;
 
 import java.util.Optional;
 
@@ -18,6 +19,19 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public String registerCustomer(Customer customer) {
         return customerRepository.registerCustomer(customer);
+    }
+
+    @PostConstruct
+    public void createAnonymousCustomer() {
+        if (customerRepository.findCustomerByUsername ("anonymous").isEmpty()) {
+
+
+            Customer anonymous = new Customer (
+                    "Anonymous",
+                    "anonymous"
+            );
+            customerRepository.registerCustomer (anonymous);
+        }
     }
 
     @Override

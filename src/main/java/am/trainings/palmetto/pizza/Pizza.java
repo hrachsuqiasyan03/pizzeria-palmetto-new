@@ -1,5 +1,7 @@
 package am.trainings.palmetto.pizza;
 
+import com.fasterxml.jackson.annotation.JsonKey;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,6 +30,7 @@ public class Pizza {
         this.ingredientsCount = this.ingredients.size();
     }
 
+    @JsonKey
     public String getName() {
         return name;
     }
